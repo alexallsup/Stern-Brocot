@@ -160,7 +160,7 @@ class SBNode():
 				return SBNode(frac=(1,0))
 			else:
 				# if we had a lower left parent
-				reutrn lowest_left_parent.parent
+				return lowest_left_parent.parent
 		else:
 			return self.right_child.get_leftmost_child()	
 
@@ -178,16 +178,24 @@ class SBNode():
 	def __str__(self):
 		return "%s/%s" % (self.frac[0], self.frac[1])
 
-def gen_SB_tree(max_denom):
-	"""Generate a Stern-Brocot tree with all denominators less than max_denom. Returns the root node."""
-	root_node = SBNode()
-	root_node.gen_children(max_denom)
-	return root_node
+def print_nested_list(nest_list, indent_depth=0):
+	for i in xrange(len(nest_list)):
+		s = ""
+		for j in xrange(indent_depth):
+			s += "	"
+		if i == 0:
+			s += str(nest_list[i])
+			indent_depth += 1
+			print s
+		else:
+			print_nested_list(nest_list[i], indent_depth=indent_depth)
+
 
 if __name__ == '__main__':
 	root = SBNode()
 	try:
-		root.gen_children(max_denom=4)
+		root.gen_children(max_depth=4)
 	except RuntimeError, e:
 		print "Stack overflowed."
 	print root.list_repr()
+	print_nested_list(root.list_repr())
