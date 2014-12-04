@@ -4,6 +4,10 @@ def mediant(frac1, frac2):
 	# print "%s m %s = %s" % (frac1, frac2, (frac1[0]+frac2[0], frac1[1]+frac2[1])
 	return (frac1[0]+frac2[0], frac1[1]+frac2[1])
 
+def compare_fracs(frac1, frac2):
+	"""Return True if frac1 is greater than frac2."""
+	return frac1[0]*frac2[1] > frac2[0]*frac1[1]
+
 class SBNode():
 	"""Represents one node in the Stern-Brocot tree"""
 	def __init__(self, frac=(1,1), is_left_child=True, parent=None):
@@ -174,6 +178,17 @@ class SBNode():
 		if self.right_child != None:
 			contents.append(self.right_child.list_repr())
 		return contents
+
+	def search_tree(self, tgt_frac):
+		"""Search through the tree and return the SBNode with the target fraction."""
+		if self.frac == tgt_frac:
+			return self
+		elif compare_fracs(self.frac, tgt_frac):
+			# tgt is less than self and to left
+			return self.left_child.search_tree(tgt_frac)
+		else:
+			# tgt is greater than self and to right
+			return self.right_child.search_tree(tgt_frac)
 
 	def __str__(self):
 		return "%s/%s" % (self.frac[0], self.frac[1])
