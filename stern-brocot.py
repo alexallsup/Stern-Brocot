@@ -92,6 +92,17 @@ class SBNode():
 				tree_list = left_side + right_side
 		return tree_list
 
+	def list_repr(self):
+		"""Returns a list of the contents of this node and the tree below it.
+		Format: [(n,d), left_list, right_list] if it has children, [(n,d)] otherwise.
+		"""
+		contents = [self.frac]
+		if left_child  != None:
+			contents.append( left_child.list_repr())
+		if right_child != None:
+			contents.append(right_child.list_repr())
+		return contents
+
 	def __str__(self):
 		return "%s/%s" % (self.frac[0], self.frac[1])
 
@@ -107,3 +118,4 @@ if __name__ == '__main__':
 		root.gen_children(max_denom=4)
 	except RuntimeError, e:
 		print "Stack overflowed."
+	print root.list_repr()
