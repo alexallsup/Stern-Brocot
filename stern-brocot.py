@@ -52,11 +52,11 @@ class SBNode():
 		if max_denom != None:
 			if left_child_frac[1]  < max_denom and left_child_frac[0]  < left_child_frac[1]:
 				self.left_child  = SBNode(frac=left_child_frac,  is_left_child=True,  parent=self)
-				self.left_child.gen_children(max_denom)
+				self.left_child.gen_children(max_denom=max_denom)
 
 			if right_child_frac[1] < max_denom and right_child_frac[0] < right_child_frac[1]:
-				self.right_child.gen_children(max_denom)
 				self.right_child = SBNode(frac=right_child_frac, is_left_child=False, parent=self)
+				self.right_child.gen_children(max_denom=max_denom)
 
 		elif max_depth != None and current_depth < max_depth:
 			self.left_child  = SBNode(frac=left_child_frac,  is_left_child=True,  parent=self)
@@ -97,10 +97,10 @@ class SBNode():
 		Format: [(n,d), left_list, right_list] if it has children, [(n,d)] otherwise.
 		"""
 		contents = [self.frac]
-		if left_child  != None:
-			contents.append( left_child.list_repr())
-		if right_child != None:
-			contents.append(right_child.list_repr())
+		if self.left_child  != None:
+			contents.append( self.left_child.list_repr())
+		if self.right_child != None:
+			contents.append(self.right_child.list_repr())
 		return contents
 
 	def __str__(self):
