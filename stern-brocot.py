@@ -106,6 +106,46 @@ class SBNode():
 		else:
 			return self.right_child.get_rightmost_child()
 
+	def get_lowest_right_parent(self):
+		"""returns the lowest parent up the tree from herethat is a right child."""
+		if self.parent == None:
+			# if we reached the top of the tree
+			# just return this node bc the 1/1 node is technically a child of both the 1/0 and 0/1 nodes
+			return self
+		elif not self.parent.is_left_child:
+			# the parent is a right child
+			return self.parent
+		else:
+			# the parent is a left child
+			return self.parent.get_lowest_right_parent()
+
+	def get_lowest_left_parent(self):
+		"""returns the lowest parent up the tree from herethat is a right child."""
+		if self.parent == None:
+			# if we reached the top of the tree
+			# just return this node bc the 1/1 node is technically a child of both the 1/0 and 0/1 nodes
+			return self
+		elif not self.parent.is_left_child:
+			# the parent is a right child
+			return self.parent.get_lowest_left_parent()
+		else:
+			# the parent is a left child
+			return self.parent
+
+	# def get_left_node(self):
+	# 	"""Returns the node immediately adjacent to this one on the left."""
+	# 	if self.left_child == None:
+			
+	# 	else:
+	# 		return self.left_child.get_rightmost_child()
+
+	# def get_right_node(self):
+	# 	"""Returns the node immediately adjacent to this one on the right."""
+	# 	if self.right_child == None:
+			
+	# 	else:
+	# 		return self.right_child.get_leftmost_child()	
+
 	def list_repr(self):
 		"""Returns a list of the contents of this node and the tree below it.
 		Format: [(n,d), left_list, right_list] if it has children, [(n,d)] otherwise.
