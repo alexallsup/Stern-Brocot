@@ -92,6 +92,20 @@ class SBNode():
 				tree_list = left_side + right_side
 		return tree_list
 
+	def get_leftmost_child(self):
+		"""Returns the node furthest down the tree to the left. This one if it doesn't have a left child."""
+		if self.left_child == None:
+			return self
+		else:
+			return self.left_child.get_leftmost_child()
+
+	def get_rightmost_child(self):
+		"""Returns the node furthest down the tree to the right. This one if it doesn't have a right child."""
+		if self.right_child == None:
+			return self
+		else:
+			return self.right_child.get_rightmost_child()
+
 	def list_repr(self):
 		"""Returns a list of the contents of this node and the tree below it.
 		Format: [(n,d), left_list, right_list] if it has children, [(n,d)] otherwise.
