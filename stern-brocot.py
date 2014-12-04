@@ -132,19 +132,37 @@ class SBNode():
 			# the parent is a left child
 			return self.parent
 
-	# def get_left_node(self):
-	# 	"""Returns the node immediately adjacent to this one on the left."""
-	# 	if self.left_child == None:
-			
-	# 	else:
-	# 		return self.left_child.get_rightmost_child()
+	def get_left_node(self):
+		"""Returns the node immediately adjacent to this one on the left."""
+		if self.left_child == None:
+			# if we are at the end of a branch
+			lowest_right_parent = self.get_lowest_right_parent()
+			if lowest_right_parent.parent == None:
+				# if this was called from left edge of the tree
+				# the lowest right parent is the 1/1 node
+				# return the 0/1 node on the left edge of the tree
+				return SBNode(frac=(0,1))
+			else:
+				# if we had a lower right parent
+				return lowest_right_parent.parent
+		else:
+			return self.left_child.get_rightmost_child()
 
-	# def get_right_node(self):
-	# 	"""Returns the node immediately adjacent to this one on the right."""
-	# 	if self.right_child == None:
-			
-	# 	else:
-	# 		return self.right_child.get_leftmost_child()	
+	def get_right_node(self):
+		"""Returns the node immediately adjacent to this one on the right."""
+		if self.right_child == None:
+			# if we are at the end of a branch
+			lowest_left_parent = self.get_lowest_left_parent()
+			if lowest_left_parent.parent == None:
+				# if this was called from right edge of the tree
+				# the lowest left parent is the 1/1 node
+				# return the 1/0 (infinity) node on the right edge of the tree
+				return SBNode(frac=(1,0))
+			else:
+				# if we had a lower left parent
+				reutrn lowest_left_parent.parent
+		else:
+			return self.right_child.get_leftmost_child()	
 
 	def list_repr(self):
 		"""Returns a list of the contents of this node and the tree below it.
