@@ -47,17 +47,20 @@ class SBNode():
 		left_child_frac  = mediant(self.frac, self.get_left_frac() )
 		right_child_frac = mediant(self.frac, self.get_right_frac())
 
-		print "%s generating children %s and %s" % (self.frac, left_child_frac, right_child_frac)
-
-		self.left_child  = SBNode(frac=left_child_frac,  is_left_child=True,  parent=self)
-		self.right_child = SBNode(frac=right_child_frac, is_left_child=False, parent=self)
+		# print "%s generating children %s and %s" % (self.frac, left_child_frac, right_child_frac)
 
 		if max_denom != None:
 			if left_child_frac[1]  < max_denom and left_child_frac[0]  < left_child_frac[1]:
+				self.left_child  = SBNode(frac=left_child_frac,  is_left_child=True,  parent=self)
 				self.left_child.gen_children(max_denom)
+
 			if right_child_frac[1] < max_denom and right_child_frac[0] < right_child_frac[1]:
 				self.right_child.gen_children(max_denom)
+				self.right_child = SBNode(frac=right_child_frac, is_left_child=False, parent=self)
+
 		elif max_depth != None and current_depth < max_depth:
+			self.left_child  = SBNode(frac=left_child_frac,  is_left_child=True,  parent=self)
+			self.right_child = SBNode(frac=right_child_frac, is_left_child=False, parent=self)
 			self.left_child.gen_children( max_depth=max_depth, current_depth=current_depth+1)
 			self.right_child.gen_children(max_depth=max_depth, current_depth=current_depth+1)
 
