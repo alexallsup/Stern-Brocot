@@ -19,7 +19,7 @@ class SBNode():
 		self.right_child = None
 
 	def get_left_frac(self):
-		# returns the existing fraction immediately to the left of this one
+		"""returns the existing fraction immediately to the left of this one"""
 		if self.parent == None:
 			# if this is the root node
 			return (0,1)
@@ -31,7 +31,7 @@ class SBNode():
 			return self.parent.frac
 
 	def get_right_frac(self):
-		# returns the fraction immediately to the right of this one
+		"""returns the fraction immediately to the right of this one"""
 		if self.parent == None:
 			# if this is the root node
 			return (1,0)
