@@ -76,8 +76,8 @@ class ProcSBNode():
 			# the parent is a left child
 			return self.parent
 
-	def get_left_node(self, max_denom):
-		"""Returns the node immediately adjacent to this one on the left."""
+	def get_left_rational_number(self, max_denom):
+		"""Returns the rational number immediately adjacent to this one on the left."""
 		if mediant(self.frac, self.left_frac)[1] >= max_denom:
 			# if at the end of the branch to the left
 			if self.is_left_child:
@@ -90,8 +90,8 @@ class ProcSBNode():
 			left_child = ProcSBNode(frac=mediant(self.frac, self.left_frac), is_left_child=True, parent=self, left=self.left_frac, right=self.frac)
 			return left_child.get_rightmost_child(max_denom)
 
-	def get_right_node(self, max_denom):
-		"""Returns the node immediately adjacent to this one on the right."""
+	def get_right_rational_number(self, max_denom):
+		"""Returns the rational number immediately adjacent to this one on the right."""
 		if mediant(self.frac, self.right_frac)[1] >= max_denom:
 			# if at the end of the branch to the right
 			if not self.is_left_child:
@@ -103,6 +103,14 @@ class ProcSBNode():
 			# if we have to go further down the tree
 			right_child = ProcSBNode(frac=mediant(self.frac, self.right_frac), is_left_child=False, parent=self, left=self.frac, right=self.right_frac)
 			return right_child.get_leftmost_child(max_denom)
+
+	def get_left_child(self):
+		"""Returns the left child of the current node."""
+		return ProcSBNode(frac=mediant(self.frac, self.left_frac), is_left_child=True, parent=self, left=self.left_frac, right=self.frac)
+
+	def get_right_child(self):
+		"""Returns the right child of the current node."""
+		return ProcSBNode(frac=mediant(self.frac, self.right_frac), is_left_child=False, parent=self, left=self.frac, right=self.right_frac)
 
 	def search_tree(self, tgt_frac, max_denom):
 		"""Search through the tree and return the SBNode with the target fraction."""
@@ -122,5 +130,5 @@ class ProcSBNode():
 
 if __name__ == '__main__':
 	root = create_node((3,7))
-	left = root.get_left_node(1000000)
+	left = root.get_left_rational_number(1000000)
 	print left
