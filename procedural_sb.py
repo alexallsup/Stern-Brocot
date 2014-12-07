@@ -28,6 +28,9 @@ class ProcSBNode():
 		self.is_left_child = is_left_child # which side of immediate tree this is on
 		self.left_frac = left # keep track of the fractions to the left and right of this one
 		self.right_frac = right
+
+		self.l_counted = False
+		self.r_counted = False
 		# print "Node:", frac
 
 	def get_leftmost_child(self, max_denom):
@@ -112,6 +115,14 @@ class ProcSBNode():
 		"""Returns the right child of the current node."""
 		return ProcSBNode(frac=mediant(self.frac, self.right_frac), is_left_child=False, parent=self, left=self.frac, right=self.right_frac)
 
+	def denom(self):
+		"""Returns the denominator of the fraction."""
+		return self.frac[1]
+
+	def numer(self):
+		"""Returns the numerator of the fraction."""
+		return self.frac[0]
+
 	def search_tree(self, tgt_frac, max_denom):
 		"""Search through the tree and return the SBNode with the target fraction."""
 		child = self
@@ -125,10 +136,41 @@ class ProcSBNode():
 				# too far left
 				child = ProcSBNode(frac=mediant(self.frac, self.right_frac), is_left_child=False, parent=self, left=self.frac, right=self.right_frac)
 
+	def get_tree_size(self, max_denom):
+		"""Return the number of nodes in the tree with d<max_denom including this one."""
+		node = self
+		count = 1
+		while True:
+			# print node, node.l_counted, node.r_counted
+			if node.frac == self.frac and node.l_counted and node.r_counted:
+				break
+			if not node.l_counted:
+				left_child = node.get_left_child()
+				
+				node.l_counted = True
+				if left_child.denom() <= max_denom and left_child.denom() > left_child.numer():
+					# if the next node is still valid within the constraintsj
+					print "L",left_child
+					count += 1
+					node = left_child
+			elif not node.r_counted:
+				right_child = node.get_right_child()
+				
+				node.r_counted = True
+				if right_child.denom() <= max_denom and right_child.denom() > right_child.numer():
+					# if the next node is still valid within the constraints
+					print "R",right_child
+					count += 1
+					node = right_child
+			else:
+				# if both have been counted
+				node = node.parent
+		return count
+
+
 	def __str__(self):
 		return "%s/%s" % (self.frac[0], self.frac[1])
 
 if __name__ == '__main__':
-	root = create_node((3,7))
-	left = root.get_left_rational_number(1000000)
-	print left
+	root = ProcSBNode()
+	print root.get_tree_size(5)
